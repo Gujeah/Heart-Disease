@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Heart Disease Occurrence</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .title1 {
+        text-align: center;
+      }
+
+      .prediction-result {
+        margin: 20px 0;
+        padding: 15px;
+        border-radius: 5px;
+        background-color: #f0f8ff;
+        border: 1px solid #b8daff;
+        text-align: center;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+
+      input,
+      select {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+
+      button {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    {% if risk_message %}
+    <div class="prediction-result">
+      <h1 class="title1">Heart Disease Predictor</h1>
+      <h3>Results from your health data</h3>
+      <p><strong>{{ risk_message }}</strong></p>
+      {% if probability != "N/A" %}
+      <p><strong>Probability:</strong> {{ probability }}</p>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    <form action="{{ url_for('predict') }}" method="post">
+      <div class="form-group">
+        <label for="age">Age:</label>
+        <input type="number" name="age" id="age" required min="0" max="120" />
+      </div>
+
+      <div class="form-group">
+        <label for="sex">Sex:</label>
+        <select name="sex" id="sex">
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="dataset">Dataset:</label>
+        <select name="dataset" id="dataset">
+          <option value="cleveland">Cleveland</option>
+          <option value="hungary">Hungary</option>
+          <option value="va_long_beach">VA Long Beach</option>
+          <option value="switzerland">Switzerland</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="cp">Chest Pain Type:</label>
+        <select name="cp" id="cp">
+          <option value="typical_angina">Typical Angina</option>
+          <option value="atypical_angina">Atypical Angina</option>
+          <option value="non_anginal">Non-Anginal Pain</option>
+          <option value="asymptomatic">Asymptomatic</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="trestbps">Resting Blood Pressure:</label>
+        <input type="number" name="trestbps" id="trestbps" required min="0" />
+      </div>
+
+      <div class="form-group">
+        <label for="chol">Cholesterol:</label>
+        <input type="number" name="chol" id="chol" required min="0" />
+      </div>
+
+      <div class="form-group">
+        <label for="fbs">Fasting Blood Sugar:</label>
+        <select name="fbs" id="fbs">
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="restecg">Resting ECG Results:</label>
+        <select name="restecg" id="restecg">
+          <option value="normal">Normal</option>
+          <option value="st_t_abnormality">ST-T Wave Abnormality</option>
+          <option value="lv_hypertrophy">Left Ventricular Hypertrophy</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="thalch">Maximum Heart Rate Achieved:</label>
+        <input type="number" name="thalch" id="thalch" required min="0" />
+      </div>
+
+      <div class="form-group">
+        <label for="exang">Exercise-Induced Angina:</label>
+        <select name="exang" id="exang">
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="oldpeak">ST Depression Induced by Exercise:</label>
+        <input
+          type="number"
+          step="0.1"
+          name="oldpeak"
+          id="oldpeak"
+          required
+          min="0"
+        />
+      </div>
+
+      <button type="submit">Predict</button>
+    </form>
+  </body>
+</html>
